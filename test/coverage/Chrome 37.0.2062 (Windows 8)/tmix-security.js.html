@@ -1,0 +1,1993 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ./tmix-security.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">./tmix-security.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">91.36% <small>(148 / 162)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">85.94% <small>(55 / 64)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">81.82% <small>(27 / 33)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">91.36% <small>(148 / 162)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">.\</a> &#187; tmix-security.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">36</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">36</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-yes">48</span>
+<span class="cline-any cline-yes">48</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">20</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">45</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">115</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">115</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">114</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">85</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+/**
+ * tmix-security: extends backend security to the UI--shouldn't replace 
+ * backend security but can make the UI security-aware. Two major use cases:
+ *  1. limiting access to a route:
+ *		.when('/', {
+ *			...
+ *			resolve: ['tmixSecurity', function(tmixSecurity){ return tmixSecurity.authorizeOrRedirect(); }],
+ *			permissions: 'http://example.com/my-roles'
+ *		})
+ *	2. changing UI element behavior in controllers:
+ *		...
+ *		$scope.showEditButton = tmixSecurity.isAuthorized('PUT/resource/' + id);
+ *		// in this case, our route permissions would need to be something like {PUT: {resource: [1, 2, 3]}}
+ *	
+ *	The isAuthorized method allows for several ways to customize how authorization
+ *	happens; see documentation for isAuthorized.
+ *	
+ *	More details at https://github.intel.com/5Star/intcNg/wiki/Security-Provider
+ */
+&nbsp;
+try {
+	angular.module('tmix'); // test if the module exists...
+}
+catch (err) {
+	angular.module('tmix', []); // ...or create it
+}
+&nbsp;
+angular.module('tmix').provider('tmixSecurity', function () {
+&nbsp;
+	/**
+	 * Store injected services; available after $get runs
+	 * @type object
+	 */
+	var injects = {};
+&nbsp;
+	/**
+	 * Store default permissions; will be overriden by specific permissions
+	 * on a route
+	 * @type string|object
+	 */
+	var defaultPermissions;
+&nbsp;
+	/**
+	 * Store permissions retrieved from the server with each URL as the key
+	 * @type injects.$cacheFactory
+	 */
+	var permissionsCache;
+&nbsp;
+	/**
+	 * Get the permissions for the given route, or the current route; this method
+	 * always returns a promise to the permissions.
+	 * @param {string} A valid route like '/page/:id' (not '/page/3'); if not set, will use the current route
+	 * @returns {object} Either the permissions or a promise to them
+	 */
+	var getPermissions = function (routePath) {
+		// collect permissions from route object
+		var routePermissions = getPermissionsFromRoute(routePath);
+		// attempt to retrieve a URL from cache 
+		var permissions = getPermissionsSync(routePath); // 
+		// case: cache miss
+		if (typeof routePermissions === 'string' &amp;&amp; typeof permissions === 'undefined') {
+			log('Retrieving permissions from a URL; expect a promise for route: ' + routePath);
+			return retrievePermissions(routePermissions);
+		}
+		// case: send route permissions object
+		else {
+			return injects.$q.when(permissions);
+		}
+//		
+//		
+//		
+//		if()
+//		routePath = routePath || getCurrentRoutePath();
+//		var route = getRoute(routePath);
+//		var routePermissions = route.permissions || defaultPermissions; // use default permissions if necessary
+//		if (!route.permissions){
+//			log('Using default permissions.');
+//		}
+//		// case: a permissions URL
+//		if (typeof routePermissions === 'string') {
+//			var url = routePermissions;
+//			var permissions = permissionsCache.get(url);
+//			// case: already cached
+//			if (permissions) {
+//				log('Getting permissions from the cache for route: ' + routePath);
+//				return permissions;
+//			}
+//			// case: go retrieve them from the server
+//			else {
+//				log('Retrieving permissions from a URL; expect a promise for route: ' + routePath);
+//				return retrievePermissions(url);
+//			}
+//		}
+//		// case: a permissions object on the route
+//		else {
+//			log('Getting permissions from an object for route: ' + routePath);
+//			return routePermissions;
+//		}
+	};
+&nbsp;
+	/**
+	 * Retrieve permissions synchronously--in other words, not as a promise. This
+	 * method can return undefined if the cache misses.
+	 * @param {string} A valid route like '/page/:id' (not '/page/3'); if not set, will use the current route
+	 * @returns {object} Permissions object or undefined if cache misses
+	 */
+	var getPermissionsSync = function (routePath) {
+		var routePermissions = getPermissionsFromRoute(routePath);
+		// case: route permissions as URL
+		if (typeof routePermissions === 'string') {
+			var permissions = permissionsCache.get(routePermissions);
+			if (permissions) {
+				log('Getting permissions from the cache for route: ' + routePath);
+			}
+			else {
+				log('Could not find cached permissions for route: ' + routePath);
+			}
+			return permissions;
+		}
+		// case: route permissions as object
+		else {
+			log('Getting permissions from an object for route: ' + routePath);
+			return routePermissions;
+		}
+	};
+&nbsp;
+	/**
+	 * Attempt to retrieve permissions from the route permissions object. Will
+	 * pull from the default permissions if the 'permissions' field is falsy.
+	 * E.g.:
+	 * 
+	 *	.when('/', {
+	 *		...
+	 *		resolve: ...,
+	 *		permissions: 'http://example.com/my-roles' // URL case
+	 *	})
+	 *	
+	 *	Or:
+	 *	
+	 *	.when('/', {
+	 *		...
+	 *		resolve: ...,
+	 *		permissions: {viewable: [1, 2, 3], editable: [2, 3]} // object case
+	 *	})
+	 *	
+	 * @param {string} A valid route like '/page/:id' (not '/page/3'); if not set, will use the current route
+	 * @returns {object|string}
+	 */
+	var getPermissionsFromRoute = function (routePath) {
+		routePath = routePath || getCurrentRoutePath();
+		var route = getRoute(routePath);
+		var routePermissions = route.permissions || defaultPermissions; // use default permissions if necessary
+		if (!route.permissions) {
+			log('Using default permissions.');
+		}
+		return routePermissions;
+	};
+&nbsp;
+	/**
+	 * Retrieve the current user's permissions from a URL; helper method for
+	 * getPermissions()
+	 * @param {string} url
+	 * @returns {$q.defer.promise}
+	 */
+	var retrievePermissions = function (url) {
+		var deferred = injects.$q.defer();
+		injects.$http.get(url, {withCredentials: true})
+				.success(function (permissions) {
+					log('Permissions returned from: ' + url);
+					permissionsCache.put(url, permissions);
+					deferred.resolve(permissions);
+				})
+				.error(<span class="fstat-no" title="function not covered" >function (response) {</span>
+<span class="cstat-no" title="statement not covered" >					log('Failed to retrieve permissions from: ' + url);</span>
+<span class="cstat-no" title="statement not covered" >					deferred.reject(response);</span>
+				});
+		return deferred.promise;
+	};
+&nbsp;
+	/**
+	 * Set the permissions for a route (or the current route, if unspecified)
+	 * @param {object} permissions
+	 * @param {string} a valid route, like '/page/:id' (not '/page/3')
+	 * @returns {undefined}
+	 */
+	var setPermissions = function (permissions, routePath) {
+		var route = getRoute(routePath || <span class="branch-1 cbranch-no" title="branch not covered" >getCurrentRoutePath())</span>;
+		log('Manually set permissions on: ' + route);
+		route.permissions = permissions;
+	};
+&nbsp;
+	/**
+	 * Set the default permissions
+	 * @param {object} permissions
+	 * @returns {undefined}
+	 */
+	var setDefaultPermissions = function (permissions) {
+		log('Manually set default permissions; these will be overriden by any specified route permissions.');
+		defaultPermissions = permissions;
+	};
+&nbsp;
+	/**
+	 * Return a true/false promise stating whether the current authenticated
+	 * user is permitted to access the current route; will redirect to the
+	 * access denied route if false. This method is meant to be called from
+	 * a route resolve, like:
+	 * 
+	 * .when('/some/:someField/an-action', {
+	 *		...
+	 *		resolve: ['intcSecurity', function(intcSecurity){ return intcSecurity.authorizeOrRedirect(); }],
+	 * }
+	 * 
+	 * @returns {$q.defer.promise}
+	 */
+	var authorizeOrRedirect = function () {
+		var deferred = injects.$q.defer();
+		var currentPath = injects.$location.path();
+		var permissionsPromise = getPermissions(); // pre-load permissions to populate cache
+		
+		// once loaded, test the permissions with isAuthorized()
+		permissionsPromise.then(function () {
+			// case: we now have permissions, try to authorize
+			_authorizeOrRedirect();
+		}, <span class="fstat-no" title="function not covered" >function () {</span>
+			// case: the promise failed... use defaults to authorize
+<span class="cstat-no" title="statement not covered" >			log('No permissions, authorizing by default.');</span>
+<span class="cstat-no" title="statement not covered" >			_authorizeOrRedirect();</span>
+		});
+		
+		// convenience method for testing authorization once permissions are loaded
+		function _authorizeOrRedirect() {
+			if (isAuthorized(currentPath)) {
+				log('Authorized.');
+				deferred.resolve(true);
+			}
+			else {
+				log('Rejected.');
+				deferred.reject(false);
+				redirect();
+			}
+		}
+		
+		return deferred.promise;
+	};
+&nbsp;
+	/**
+	 * Redirect to the current route's access denied route
+	 * @returns {undefined}
+	 */
+	var redirect = function () {
+		var newRoute = getAccessDeniedRouteFor(getCurrentRoutePath());
+		injects.$location.path(newRoute);
+		injects.$location.replace(); // replaces current history so browser back works, see https://docs.angularjs.org/api/ng/service/$location
+	};
+&nbsp;
+	/**
+	 * Determine whether the current query string exists in the permissions
+	 * object for this route. E.g.:
+	 * 
+	 * angular.module('...').controller('MainCtrl', function ($scope, $route, tmixSecurity) {
+	 *		// or if AuthenticationService has already been used in this route's resolve, just do:
+	 *		tmixSecurityProvider.isAuthorized('canView/23');
+	 * }
+	 * 
+	 * Custom authorization is prioritized:
+	 *	1. check for custom route authorization; this is a function assigned to a route like:
+	 *		.when('/some/:someField/an-action', {
+	 *			...
+	 *			resolve: ...,
+	 *			customAuthorization: function(query, permissions, route, routeParams){ ... },
+	 *		})
+	 *	2. check for global custom authorization; this is a function defined like:
+	 *		tmixSecurityProvider.setCustomAuthorization(function(query, permissions, route, routeParams){
+	 *			...
+	 *		});
+	 *	3. default authorization; the current route is checked against an array of routes in permissions:
+	 *		// assume we are in '/some-route' the permissions object is ['/', '/some-route', ...]
+	 *		tmixSecurityProvider.isAuthorized() === true;
+	 *	4. xpath-like search through the permissions object
+	 *		// assume permissions like {GET: {route: [1, 2, 3]}}
+	 *		tmixSecurityProvider.isAuthorized('GET/route/1') === true;
+	 *		tmixSecurityProvider.isAuthorized('GET#route#1', '#') === true;
+	 *	5. pass in a function:
+	 *		tmixSecurityProvider.isAuthorized(function(query, permissions, route, routeParams){
+	 *			...
+	 *		});
+	 *		
+	 * @param {string} queryString
+	 * @returns {boolean}
+	 */
+	var isAuthorized = function (query, routePath) {
+		routePath = routePath || getCurrentRoutePath();
+		var route = getRoute(routePath);
+		var routeParams = injects.$route.current.params;
+		var permissions = getPermissionsSync(routePath) || {};
+		// 1. check for custom route authorization
+		if (hasCustomRouteAuthorization(routePath)) {
+			log('Authorizing with a custom route function.');
+			var method = getCustomRouteAuthorization();
+			return !!method(query, permissions, route, routeParams);
+		}
+		// 2. check for custom authorization function
+		else if (hasCustomAuthorization()) {
+			log('Authorizing with a custom function.');
+			var method = getCustomAuthorization();
+			return !!method(query, permissions, route, routeParams);
+		}
+		// 3. default authorization: check for a route, 'page/2', in a permissions array, ['page/2', 'page/3', ...]
+		else if (typeof query === 'string' &amp;&amp; permissions instanceof Array) {
+			log('Default authorization: looking for a route in a permissions array.');
+			return permissions.indexOf(query) !== -1;
+		}
+		// 4. xpath-like search with a string on a permissions object
+		else if (typeof query === 'string') {
+			log('Looking for the given query in a permissions object.');
+			return findIn(query, permissions);
+		}
+		// 5. just use a function...
+		else if (typeof query === 'function') {
+			log('Default authorization: looking for a route in a permissions array.');
+			return !!query(query, permissions, route, routeParams);
+		}
+		else {
+			log('No authorization method found; using default access.');
+			return getDefaultAccess();
+		}
+	};
+&nbsp;
+&nbsp;
+	/**
+	 * Find a query like 'path/2/22' in a permissions object
+	 * @param {string} query
+	 * @param {object} object
+	 * @param {string} optionally specify a delimiter
+	 * @returns {Boolean}
+	 */
+	var findIn = function (query, object, delimiter) {
+		var cursor = object;
+		var splitQueryString = query.split(delimiter || '/');
+		for (var i in splitQueryString) {
+			var token = splitQueryString[i];
+			// is the token a property name?
+			if (typeof cursor[token] !== 'undefined') {
+				cursor = cursor[token];
+			}
+			// or is it in an array?
+			else if (cursor instanceof Array &amp;&amp; cursor.indexOf(token) !== -1) {
+				cursor = cursor[cursor.indexOf(token)];
+			}
+			// not found...
+			else {
+				cursor = null;
+				break;
+			}
+		}
+		return !!cursor ? true : false;
+	};
+&nbsp;
+&nbsp;
+	/**
+	 * Set a custom authorization method; this is made public, unlike 
+	 * the internal hasCustomAuthorization() and getCustomAuthorization()
+	 * @param {function} callbackFunction
+	 * @returns {undefined}
+	 */
+	var setCustomAuthorization = function (callbackFunction) {
+		customAuthorization = callbackFunction;
+	};
+	var hasCustomAuthorization = function () {
+		return (typeof customAuthorization === 'function');
+	};
+	var getCustomAuthorization = function () {
+		<span class="missing-if-branch" title="if path not taken" >I</span>if (!hasCustomAuthorization()) {
+<span class="cstat-no" title="statement not covered" >			throw new Error('CustomAuthorization is not a function; use setCustomAuthorization(yourAuthorizationFunction)');</span>
+		}
+		return customAuthorization;
+	};
+	var customAuthorization;
+&nbsp;
+&nbsp;
+	/**
+	 * 
+	 * @param {object} route
+	 * @returns {boolean}
+	 */
+	var hasCustomRouteAuthorization = function (routePath) {
+		var route = getRoute(routePath);
+		return (routePath &amp;&amp; typeof route.customAuthorization === 'function');
+	};
+	var getCustomRouteAuthorization = function (routePath) {
+		routePath = routePath || getCurrentRoutePath();
+		<span class="missing-if-branch" title="if path not taken" >I</span>if (!hasCustomRouteAuthorization(routePath)) {
+<span class="cstat-no" title="statement not covered" >			throw new Error("The 'customAuthorization' property is not set to a function on: " + routePath);</span>
+		}
+		return getRoute(routePath).customAuthorization;
+	};
+&nbsp;
+&nbsp;
+	/**
+	 * Set the default access: true will allow by default, false will deny by
+	 * default. If no access is set, the provider denies by default.
+	 * @param {boolean} allowOrDeny
+	 * @returns {undefined}
+	 */
+	var setDefaultAccess = function (allowOrDeny) {
+		defaultAccess = !!allowOrDeny;
+	};
+	/**
+	 * Get the default access: true if the provider will allow by default, false
+	 * if the provider will deny by default.
+	 * @returns {allowOrDeny|Boolean}
+	 */
+	var getDefaultAccess = function () {
+		return defaultAccess;
+	};
+	var defaultAccess = false;
+&nbsp;
+&nbsp;
+	/**
+	 * Return the access denied route for redirecting unauthenticated users.
+	 * To customize, set the 'sendUnauthenticatedTo' in the route configuration;
+	 * by default it redirects to '/forbidden'. E.g.:
+	 * 
+	 * .when('/some/:someField/an-action', {
+	 *		...
+	 *		deniedRoute: '/custom-access-denied-route' // without this, default to '/forbidden'
+	 * }
+	 * 
+	 * @param {string} route
+	 * @returns {String}
+	 */
+	var getAccessDeniedRouteFor = function (routePath) {
+		var route = getRoute(routePath || <span class="branch-1 cbranch-no" title="branch not covered" >getCurrentRoutePath())</span>;
+		if (route.deniedRoute) {
+			log('Found an access denied route to: ' + route.deniedRoute);
+			return route.deniedRoute;
+		}
+		return '/forbidden'; // default redirect route
+	};
+&nbsp;
+	/**
+	 * 
+	 * @param {string} deniedRoute
+	 * @param {string} routePath
+	 * @returns {string}
+	 */
+	var setAccessDeniedRouteFor = <span class="fstat-no" title="function not covered" >function (deniedRoute, routePath) {</span>
+<span class="cstat-no" title="statement not covered" >		var route = getRoute(routePath || getCurrentRoutePath());</span>
+<span class="cstat-no" title="statement not covered" >		if (!injects.$route.routes[route]) {</span>
+<span class="cstat-no" title="statement not covered" >			throw new Error('Could not get an access denied route on an unknown route: ' + route);</span>
+		}
+<span class="cstat-no" title="statement not covered" >		route.deniedRoute = deniedRoute;</span>
+	};
+&nbsp;
+&nbsp;
+	/** CONVENIENCE METHODS **/
+&nbsp;
+	/**
+	 * Return the current route string like '/path/:id'
+	 * @returns {string}
+	 */
+	var getCurrentRoutePath = function () {
+		return injects.$route.current.$$route.originalPath;
+	};
+&nbsp;
+	/**
+	 * Determine if the current route exists
+	 * @param {string} route
+	 * @returns {boolean}
+	 */
+	var routeExists = function (route) {
+		return !!injects.$route.routes[route];
+	};
+&nbsp;
+	/**
+	 * Convenience method to return the route object for a given routePath
+	 * @param {string} routePath
+	 * @returns {injects.$route.routes}
+	 */
+	var getRoute = function (routePath) {
+		if (!routeExists(routePath)) {
+			throw new Error('Could not find route: ' + routePath);
+		}
+		return injects.$route.routes[routePath];
+	};
+&nbsp;
+	/**
+	 * Log security messages; off by default
+	 * @param {string} message
+	 * @returns {undefined}
+	 */
+	var log = function (message) {
+		<span class="missing-if-branch" title="if path not taken" >I</span>if (debug) {
+<span class="cstat-no" title="statement not covered" >			console.log('[tmixSecurityProvider] ' + message);</span>
+		}
+	};
+	var debug = false;
+	var turnOffDebugging = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >		debug = false;</span>
+	};
+	var turnOnDebugging = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >		debug = true;</span>
+	};
+&nbsp;
+	/**
+	 * Runs when this provider is resolved in .config(); if this isn't run,
+	 * all of the injects ($route, $q, etc.) won't be available and errors
+	 * will ensue.
+	 */
+	var $get = [
+		'$route', '$cacheFactory', '$q', '$location', '$http',
+		function ($route, $cacheFactory, $q, $location, $http) {
+			// load injects 
+			injects.$route = $route;
+			injects.$cacheFactory = $cacheFactory;
+			injects.$q = $q;
+			injects.$location = $location;
+			injects.$http = $http;
+			// setup the cache
+			permissionsCache = injects.$cacheFactory('permissionsCache');
+			// return the public API after 'resolve'
+			return {
+				authorizeOrRedirect: authorizeOrRedirect,
+				isAuthorized: isAuthorized,
+				findIn: findIn,
+				getPermissions: getPermissions,
+				getPermissionsSync: getPermissionsSync,
+				getPermissionsFromRoute: getPermissionsFromRoute,
+				setPermissions: setPermissions,
+				setAccessDeniedRouteFor: setAccessDeniedRouteFor,
+				setDefaultPermissions: setDefaultPermissions,
+				setCustomAuthorization: setCustomAuthorization,
+				setDefaultAccess: setDefaultAccess,
+				turnOnDebugging: turnOnDebugging,
+				turnOffDebugging: turnOffDebugging
+			};
+		}
+	];
+&nbsp;
+	/**
+	 * Public API before 'resolve'; must include $get here so that Angular knows
+	 * how to create this provider; all injects are unavailable at this stage
+	 * so methods that rely on them have been removed.
+	 */
+	return {
+		$get: $get,
+		authorizeOrRedirect: ['tmixSecurity', <span class="fstat-no" title="function not covered" >function (tmixSecurity) {</span>
+<span class="cstat-no" title="statement not covered" >				tmixSecurity.authorizeOrRedirect();</span>
+			}],
+		setDefaultPermissions: setDefaultPermissions,
+		setCustomAuthorization: setCustomAuthorization,
+		setDefaultAccess: setDefaultAccess,
+		turnOnDebugging: turnOnDebugging,
+		turnOffDebugging: turnOffDebugging
+	};
+});</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 30 2014 10:08:12 GMT-0700 (Pacific Daylight Time)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="https://yui-s.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>
