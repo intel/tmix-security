@@ -6,7 +6,7 @@
  *  1. limiting access to a route:
  *		.when('/', {
  *			...
- *			resolve: ['tmixSecurity', function(tmixSecurity){ return tmixSecurity.authorizeOrRedirect(); }],
+ *			resolve: tmixSecurityProvide.authorizeOrRedirect,
  *			permissions: 'http://example.com/my-roles'
  *		})
  *	2. changing UI element behavior in controllers:
@@ -17,7 +17,7 @@
  *	The isAuthorized method allows for several ways to customize how authorization
  *	happens; see documentation for isAuthorized.
  *	
- *	More details at https://github.intel.com/5Star/intcNg/wiki/Security-Provider
+ *	More details at https://github.com/01org/tmix-security
  */
 
 try {
@@ -68,36 +68,6 @@ angular.module('tmix').provider('tmixSecurity', function () {
 		else {
 			return injects.$q.when(permissions);
 		}
-//		
-//		
-//		
-//		if()
-//		routePath = routePath || getCurrentRoutePath();
-//		var route = getRoute(routePath);
-//		var routePermissions = route.permissions || defaultPermissions; // use default permissions if necessary
-//		if (!route.permissions){
-//			log('Using default permissions.');
-//		}
-//		// case: a permissions URL
-//		if (typeof routePermissions === 'string') {
-//			var url = routePermissions;
-//			var permissions = permissionsCache.get(url);
-//			// case: already cached
-//			if (permissions) {
-//				log('Getting permissions from the cache for route: ' + routePath);
-//				return permissions;
-//			}
-//			// case: go retrieve them from the server
-//			else {
-//				log('Retrieving permissions from a URL; expect a promise for route: ' + routePath);
-//				return retrievePermissions(url);
-//			}
-//		}
-//		// case: a permissions object on the route
-//		else {
-//			log('Getting permissions from an object for route: ' + routePath);
-//			return routePermissions;
-//		}
 	};
 
 	/**
@@ -209,7 +179,7 @@ angular.module('tmix').provider('tmixSecurity', function () {
 	 * 
 	 * .when('/some/:someField/an-action', {
 	 *		...
-	 *		resolve: ['intcSecurity', function(intcSecurity){ return intcSecurity.authorizeOrRedirect(); }],
+	 *		resolve: tmixSecurityProvider.authorizeOrRedirect
 	 * }
 	 * 
 	 * @returns {$q.defer.promise}
