@@ -134,7 +134,8 @@ describe('tmix-security', function () {
 		// does not have permissions
 		expect(Auth.getPermissionsFromRoute('/no-permissions')).toBe(undefined);
 		// non-existent route
-		expect(Auth.getPermissionsFromRoute.bind(null, '/non-existent-route')).toThrow();
+		var tmp = function(){ Auth.getPermissionsFromRoute('/non-existent-route'); };
+		expect(tmp).toThrow();
 	});
 
 	it('should retrieve permissions data from a URL in the route declaration', inject(function ($injector) {
