@@ -12,16 +12,14 @@
 	],
 	"license": "MIT",
 	"homepage": "https://github.com/01org/tmix-security",
-	"private": true,
 	"main": [
 		"./tmix-security.js"
 	],
 	"ignore": [
 		"**/.*",
 		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
+		"test/bower_components",
+		"test/coverage"
 	],
 	"devDependencies": {
 		"angular": "^1.2.25",
