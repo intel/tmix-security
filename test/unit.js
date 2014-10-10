@@ -175,6 +175,30 @@ describe('tmix-security', function () {
 			expect(data).toBe('RESPONSE 1');
 		});		
 	}));
+	
+	it('can clear cached permissions', inject(function ($http, $injector) {
+		// spy on HTTP GET
+		var $httpBackend = $injector.get("$httpBackend"); // do we really need to $inject first?
+		$httpBackend.when('GET', 'http://example.com/my-roles').respond('RESPONSE 1');
+		// ask for permissions
+		expect(Auth.getPermissionsSync('/grab-from-url')).toBe(undefined); // nothing cached
+		Auth.getPermissions('/grab-from-url').then(function (data) {
+			expect(data).toBe('RESPONSE 1');
+		}, function () {
+			expect('to not be here').toBe(false);
+		});
+		// ensure backend runs
+		$httpBackend.flush();
+		// clear permissions
+		Auth.clearPermissionsCache();
+		// re-ask for permissions
+		expect(Auth.getPermissionsSync('/grab-from-url')).toBe(undefined); // nothing cached
+		Auth.getPermissions('/grab-from-url').then(function (data) {
+			expect(data).toBe('RESPONSE 1');
+		}, function () {
+			expect('to not be here').toBe(false);
+		});	
+	}));
 
 	it('should be queryable throughout the application', function () {
 		// uses current route's permissions by default; i.e. '/'

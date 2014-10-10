@@ -58,7 +58,7 @@ angular.module('tmix').provider('tmixSecurity', function () {
 		// collect permissions from route object
 		var routePermissions = getPermissionsFromRoute(routePath);
 		// attempt to retrieve a URL from cache 
-		var permissions = getPermissionsSync(routePath); // 
+		var permissions = getPermissionsSync(routePath);
 		// case: cache miss
 		if (typeof routePermissions === 'string' && typeof permissions === 'undefined') {
 			log('Retrieving permissions from a URL; expect a promise for route: ' + routePath);
@@ -169,6 +169,17 @@ angular.module('tmix').provider('tmixSecurity', function () {
 	var setDefaultPermissions = function (permissions) {
 		log('Manually set default permissions; these will be overriden by any specified route permissions.');
 		defaultPermissions = permissions;
+	};
+	
+	/**
+	 * Clear the retrieved permissions from the cache; this only affects
+	 * permissions retrieved from an URL (i.e. with retrievePermissions());
+	 * this means the next getPermissions() call will re-retrieve from the 
+	 * server.
+	 * @returns {undefined}
+	 */
+	var clearPermissionsCache = function(){
+		permissionsCache.removeAll();
 	};
 
 	/**
@@ -493,11 +504,12 @@ angular.module('tmix').provider('tmixSecurity', function () {
 			// return the public API after 'resolve'
 			return {
 				authorizeOrRedirect: authorizeOrRedirect,
-				isAuthorized: isAuthorized,
+				clearPermissionsCache: clearPermissionsCache,
 				findIn: findIn,
 				getPermissions: getPermissions,
 				getPermissionsSync: getPermissionsSync,
 				getPermissionsFromRoute: getPermissionsFromRoute,
+				isAuthorized: isAuthorized,
 				setPermissions: setPermissions,
 				setAccessDeniedRouteFor: setAccessDeniedRouteFor,
 				setDefaultPermissions: setDefaultPermissions,
