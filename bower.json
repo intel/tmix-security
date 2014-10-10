@@ -18,7 +18,7 @@
 	"ignore": [
 		"**/.*",
 		"node_modules",
-		"test/bower_components",
+		"bower_components",
 		"test/coverage"
 	],
 	"devDependencies": {

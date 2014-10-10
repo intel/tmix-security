@@ -4,8 +4,8 @@ module.exports = function (config) {
 		basePath: '',
 		frameworks: ['jasmine'],
 		files: [
-			'test/bower_components/angular/angular.js',
-			'test/bower_components/angular-mocks/angular-mocks.js',
+			'bower_components/angular/angular.js',
+			'bower_components/angular-mocks/angular-mocks.js',
 			'tmix-security.js',
 			'test/unit.js'
 		],
