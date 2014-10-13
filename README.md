@@ -16,13 +16,13 @@ Add to your project with `bower install tmix-security --save`.
 
 The following examples should help you have tmix-security running quickly:
 
-- [Control Routes (The Easy Way)](#control-routes-the-easy-way)
-- [Control Routes (The Advanced Way)](#control-routes-the-advanced-way)
-- [Use `isAuthorized` in a Controller](#use-isauthorized-in-a-controller)
-- [Use Permissions in a Controller](#use-permissions-in-a-controller)
-- [Use One Set of Permissions Throughout Application](#use-one-set-of-permissions-throughout-application)
-- [Set Custom, Static Permissions](#set-custom-static-permissions)
-- [Changing Permissions, Clearing the Cache](#changing-permissions-clearing-the-cache)
+- [Control Routes (The Easy Way)](#example-control-routes-the-easy-way)
+- [Control Routes (The Advanced Way)](#example-control-routes-the-advanced-way)
+- [Use `isAuthorized` in a Controller](#example-use-isauthorized-in-a-controller)
+- [Use Permissions in a Controller](#example-use-permissions-in-a-controller)
+- [Use One Set of Permissions Throughout Application](#example-use-one-set-of-permissions-throughout-application)
+- [Set Custom, Static Permissions](#example-set-custom-static-permissions)
+- [Changing Permissions, Clearing the Cache](#example-changing-permissions-clearing-the-cache)
 
 
 ### Example: Control Routes (The Easy Way)
