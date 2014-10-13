@@ -2,11 +2,28 @@
 
 The tmix-security provider is intended to extend backend security into an AngularJS application. It shouldn't replace backend security since AJAX requests can be altered outside the application--it should improve the user experience by making the UI security-aware.
 
+
+
 ### Install
 
 Add to your project with `bower install tmix-security --save`.
 
 > Note: during development it may be helpful to turn on debugging messages with `tmixSecurity.turnOnDebugging()`.
+
+
+
+### Examples
+
+The following examples should help you have tmix-security running quickly:
+
+- [Control Routes (The Easy Way)](#control-routes-the-easy-way)
+- [Control Routes (The Advanced Way)](#control-routes-the-advanced-way)
+- [Use `isAuthorized` in a Controller](#use-isauthorized-in-a-controller)
+- [Use Permissions in a Controller](#use-permissions-in-a-controller)
+- [Use One Set of Permissions Throughout Application](#use-one-set-of-permissions-throughout-application)
+- [Set Custom, Static Permissions](#set-custom-static-permissions)
+- [Changing Permissions, Clearing the Cache](#changing-permissions-clearing-the-cache)
+
 
 ### Example: Control Routes (The Easy Way)
 
@@ -45,6 +62,8 @@ angular.module('exampleApp', [
 Note: when `permissions` is a string, as in the example, SecurityProvider expects it to be a URL and will attempt to retrieve a permissions object using AJAX; this request will be cached and subsequent requests to the same URL will used the cached response. 
 
 3. Don't forget to setup a `forbidden` route and view for unauthorized requests to redirect to.
+
+
 
 ### Example: Control Routes (The Advanced Way)
 
@@ -101,6 +120,8 @@ angular.module('exampleApp', [
    });
 ```
 
+
+
 ### Example: Use `isAuthorized` in a Controller
 
 The tmix-security provider allows access to its authorization methods from within the controller. Use `isAuthorized` if you have either a simple authorization scheme (e.g. is the current route allowed?) or some specific authorization scheme application-wide. This method also abstracts away the caching of permissions and type-checking for a returned promise.
@@ -151,6 +172,8 @@ tmixSecurity.isAuthorized(function(query, permissions, route, routeParams){
 });
 ```
 
+
+
 ### Example: Use Permissions in a Controller
 
 1. Once permissions are set on the route, you can access permissions from within controllers (without a parameter, `getPermissions` will retrieve permissions for the current route, e.g. if the route's permissions field is a string, it will assume it is a URL--if not, it will assume it is a permissions object):
@@ -171,10 +194,9 @@ something.permissions = tmixSecurity.getPermissions('/some-other-route').then(fu
 
 3. If the permissions have already been cached, e.g. in a previous `authorizeOrRedirect()`, you can use a getPermissionsSync() to return the results directly, no promise:
 ```
-var permissions = tmixSecurity.getPermissions();
+var permissions = tmixSecurity.getPermissionsSync();
 ```
 
-4. Alternately,
 
 
 ### Example: Use One Set of Permissions Throughout Application
@@ -209,6 +231,8 @@ angular.module('exampleApp').controller('ExampleCtrl', function ($scope, tmixSec
 });
 ```
 
+
+
 ### Example: Redirect to a Custom URL
 
 By default, tmix-security provider will redirect to `/forbidden` when a user does not have authorization to a route. To change the redirect route, add a `deniedRoute` property on the route in question:
@@ -221,6 +245,8 @@ By default, tmix-security provider will redirect to `/forbidden` when a user doe
         });
 ```
 
+
+
 ### Example: Set Custom, Static Permissions
 
 If `permissions` is an array or object, tmix-security provider will use this instance as the route's permissions:
@@ -232,9 +258,11 @@ If `permissions` is an array or object, tmix-security provider will use this ins
         })
 ```
 
+
+
 ### Example: Changing Permissions, Clearing the Cache
 
-tmix-secuirty caches permissions retrieved from URLs; if your frontend application changes the permissions object and you want to re-retrieve permissions, clear the URL cache with:
+tmix-security caches permissions retrieved from URLs; if your frontend application changes the permissions object and you want to re-retrieve permissions, clear the URL cache with:
 ```
 	tmixSecurity.clearPermissionsCache();
 ```
