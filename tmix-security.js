@@ -6,7 +6,7 @@
  *  1. limiting access to a route:
  *		.when('/', {
  *			...
- *			resolve: tmixSecurityProvide.authorizeOrRedirect,
+ *			resolve: tmixSecurityProvidef.authorizeOrRedirect,
  *			permissions: 'http://example.com/my-roles'
  *		})
  *	2. changing UI element behavior in controllers:
@@ -170,7 +170,7 @@ angular.module('tmix').provider('tmixSecurity', function () {
 		log('Manually set default permissions; these will be overriden by any specified route permissions.');
 		defaultPermissions = permissions;
 	};
-	
+
 	/**
 	 * Clear the retrieved permissions from the cache; this only affects
 	 * permissions retrieved from an URL (i.e. with retrievePermissions());
@@ -178,7 +178,7 @@ angular.module('tmix').provider('tmixSecurity', function () {
 	 * server.
 	 * @returns {undefined}
 	 */
-	var clearPermissionsCache = function(){
+	var clearPermissionsCache = function () {
 		permissionsCache.removeAll();
 	};
 
@@ -199,7 +199,7 @@ angular.module('tmix').provider('tmixSecurity', function () {
 		var deferred = injects.$q.defer();
 		var currentPath = injects.$location.path();
 		var permissionsPromise = getPermissions(); // pre-load permissions to populate cache
-		
+
 		// once loaded, test the permissions with isAuthorized()
 		permissionsPromise.then(function () {
 			// case: we now have permissions, try to authorize
@@ -209,7 +209,7 @@ angular.module('tmix').provider('tmixSecurity', function () {
 			log('No permissions, authorizing by default.');
 			_authorizeOrRedirect();
 		});
-		
+
 		// convenience method for testing authorization once permissions are loaded
 		function _authorizeOrRedirect() {
 			if (isAuthorized(currentPath)) {
@@ -222,7 +222,7 @@ angular.module('tmix').provider('tmixSecurity', function () {
 				redirect();
 			}
 		}
-		
+
 		return deferred.promise;
 	};
 
