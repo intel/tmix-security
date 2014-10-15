@@ -34,9 +34,7 @@ The following examples should help you have tmix-security running quickly:
 
 2. Include the tmix-security provider and set the `resolve` and `permissions` property on each route you want to secure:
 ```
-angular.module('exampleApp', [
-  'intcNg'
-]).config(function($routeProvider, tmixSecurityProvider) {
+angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'views/templates.html',
@@ -81,9 +79,7 @@ Note: when `permissions` is a string, as in the example, SecurityProvider expect
 
 3. Setup a custom authorization function that will control all routes:
 ```
-angular.module('exampleApp', [
-  'intcNg'
-]).config(function($routeProvider, tmixSecurityProvider) { 
+angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) { 
     // notice that here we use the full name, tmix-security provider
     tmixSecurityProvider.setCustomAuthorization(function(query, permissions, route, routeParams){
         return permissions.canView.indexOf(query) !== -1;
@@ -95,9 +91,7 @@ angular.module('exampleApp', [
 
 4. __Alternately__, setup a custom authorization function on a route:
 ```
-angular.module('exampleApp', [
-  'intcNg'
-]).config(function($routeProvider, tmixSecurityProvider) {
+angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) {
     $routeProvider
         .when('/view/:id', {
             templateUrl: 'views/templates.html',
@@ -203,9 +197,7 @@ var permissions = tmixSecurity.getPermissionsSync();
 
 1. In cases where the permissions object is the same throughout the entire application, setup a default permissions object. E.g.:
 ```
-angular.module('exampleApp', [
-  'intcNg'
-]).config(function($routeProvider, tmixSecurityProvider) { 
+angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) { 
     // use a URL...
     tmixSecurityProvider.setDefaultPermissions('http://www.example.com/api/permissions');
     // ... or use a static object
