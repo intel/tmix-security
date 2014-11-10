@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="tmix-security : Extend backend security into a frontend AngularJS application">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>tmix-security</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/01org/tmix-security">View on GitHub</a>
+
+          <h1 id="project_title">tmix-security</h1>
+          <h2 id="project_tagline">Extend backend security into a frontend AngularJS application</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/01org/tmix-security/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/01org/tmix-security/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="tmix-security" class="anchor" href="#tmix-security" aria-hidden="true"><span class="octicon octicon-link"></span></a>tmix-security</h1>
+
+<p>The tmix-security provider is intended to extend backend security into an AngularJS application. It shouldn't replace backend security since AJAX requests can be altered outside the application--it should improve the user experience by making the UI security-aware.</p>
+
+<h3>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h3>
+
+<p>Add to your project with <code>bower install tmix-security --save</code>.</p>
+
+<blockquote>
+<p>Note: during development it may be helpful to turn on debugging messages with <code>tmixSecurity.turnOnDebugging()</code>.</p>
+</blockquote>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h3>
+
+<p>The following examples should help you have tmix-security running quickly:</p>
+
+<ul>
+<li><a href="#example-control-routes-the-easy-way">Control Routes (The Easy Way)</a></li>
+<li><a href="#example-control-routes-the-advanced-way">Control Routes (The Advanced Way)</a></li>
+<li><a href="#example-use-isauthorized-in-a-controller">Use <code>isAuthorized</code> in a Controller</a></li>
+<li><a href="#example-use-permissions-in-a-controller">Use Permissions in a Controller</a></li>
+<li><a href="#example-use-one-set-of-permissions-throughout-application">Use One Set of Permissions Throughout Application</a></li>
+<li><a href="#example-set-custom-static-permissions">Set Custom, Static Permissions</a></li>
+<li><a href="#example-changing-permissions-clearing-the-cache">Changing Permissions, Clearing the Cache</a></li>
+</ul>
+
+<h3>
+<a id="example-control-routes-the-easy-way" class="anchor" href="#example-control-routes-the-easy-way" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Control Routes (The Easy Way)</h3>
+
+<ol>
+<li>Create a service that returns an array of allowed routes. For example:</li>
+</ol>
+
+<pre><code>["/", "/route1", "/route2/:id"]
+</code></pre>
+
+<ol>
+<li>Include the tmix-security provider and set the <code>resolve</code> and <code>permissions</code> property on each route you want to secure:</li>
+</ol>
+
+<pre><code>angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) {
+    $routeProvider
+        .when('/', {
+            templateUrl: 'views/templates.html',
+            controller: 'TemplatesCtrl',
+            resolve: tmixSecurityProvider.authorizeOrRedirect,
+            permissions: 'http://example.com/api/Permissions'
+        })
+        .when('/module/:moduleId', {
+            templateUrl: 'views/module.html',
+            controller: 'ModuleCtrl',
+            resolve: tmixSecurityProvider.authorizeOrRedirect,
+            permissions: 'http://example.com/api/Permissions'
+        })
+        .when('/insecure-route', {
+            templateUrl: 'views/insecure.html'         
+        })
+        .when('/forbidden', {
+            templateUrl: 'views/forbidden.html'         
+        })
+        ...
+</code></pre>
+
+<p>Note: when <code>permissions</code> is a string, as in the example, SecurityProvider expects it to be a URL and will attempt to retrieve a permissions object using AJAX; this request will be cached and subsequent requests to the same URL will used the cached response. </p>
+
+<ol>
+<li>Don't forget to setup a <code>forbidden</code> route and view for unauthorized requests to redirect to.</li>
+</ol>
+
+<h3>
+<a id="example-control-routes-the-advanced-way" class="anchor" href="#example-control-routes-the-advanced-way" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Control Routes (The Advanced Way)</h3>
+
+<ol>
+<li>Create a service that returns a permissions object. E.g.:</li>
+</ol>
+
+<pre><code>{
+   userName: "John Smith",
+   canView: [1, 2, 3],
+   canEdit: [1, 2],
+   canDelete: [1]
+}
+</code></pre>
+
+<ol>
+<li><p>Include the tmix-security provider and set the <code>resolve</code> and <code>permissions</code> property on each route you want to secure (see example above).</p></li>
+<li><p>Setup a custom authorization function that will control all routes:</p></li>
+</ol>
+
+<pre><code>angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) { 
+    // notice that here we use the full name, tmix-security provider
+    tmixSecurityProvider.setCustomAuthorization(function(query, permissions, route, routeParams){
+        return permissions.canView.indexOf(query) !== -1;
+    });
+    $routeProvider
+        .when('/', {
+    ...
+</code></pre>
+
+<ol>
+<li>
+<strong>Alternately</strong>, setup a custom authorization function on a route:</li>
+</ol>
+
+<pre><code>angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) {
+    $routeProvider
+        .when('/view/:id', {
+            templateUrl: 'views/templates.html',
+            controller: 'TemplatesCtrl',
+            resolve: tmixSecurityProvider.authorizeOrRedirect, 
+            permissions: 'http://example.com/api/Permissions',
+            customAuthorization: function(query, permissions, route, routeParams){
+                return permissions.canView.indexOf(routeParams.id) !== -1;
+            });
+        })
+        .when('/edit/:id', {
+            templateUrl: 'views/module.html',
+            controller: 'ModuleCtrl',
+            resolve: tmixSecurityProvider.authorizeOrRedirect,
+            permissions: 'http://example.com/api/Permissions',
+            customAuthorization: function(query, permissions, route, routeParams){
+                return permissions.canEdit.indexOf(routeParams.id) !== -1;
+            })
+        });
+   });
+</code></pre>
+
+<h3>
+<a id="example-use-isauthorized-in-a-controller" class="anchor" href="#example-use-isauthorized-in-a-controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Use <code>isAuthorized</code> in a Controller</h3>
+
+<p>The tmix-security provider allows access to its authorization methods from within the controller. Use <code>isAuthorized</code> if you have either a simple authorization scheme (e.g. is the current route allowed?) or some specific authorization scheme application-wide. This method also abstracts away the caching of permissions and type-checking for a returned promise.</p>
+
+<p>A simple example:</p>
+
+<pre><code>// for a permissions object returned like {canView: [23, 24, 25], canEdit: ...}
+angular.module('exampleApp').controller('ExampleCtrl', function ($scope, $route, tmixSecurity) {
+    tmixSecurity.isAuthorized('canView/23');
+});
+</code></pre>
+
+<p>The method prioritizes authorization as follows:</p>
+
+<ol>
+<li>check for custom route authorization; this is a function assigned to a route like:</li>
+</ol>
+
+<pre><code>.when('/some/:someField/an-action', {
+    ...
+    resolve: ...,
+    customAuthorization: function(query, permissions, route, routeParams){ ... },
+})
+</code></pre>
+
+<ol>
+<li>check for global custom authorization; this is a function defined like:</li>
+</ol>
+
+<pre><code>tmixSecurityProvider.setCustomAuthorization(function(query, permissions, route, routeParams){
+    ...
+});
+</code></pre>
+
+<ol>
+<li>default authorization; the current route is checked against an array of routes in permissions:</li>
+</ol>
+
+<pre><code>// assume we are in '/some-route' the permissions object is ['/', '/some-route', ...]
+tmixSecurity.isAuthorized() === true;
+</code></pre>
+
+<ol>
+<li>xpath-like search through the permissions object</li>
+</ol>
+
+<pre><code>// assume permissions like {GET: {route: [1, 2, 3]}}
+tmixSecurity.isAuthorized('GET/route/1') === true;
+tmixSecurity.isAuthorized('GET#route#1', '#') === true;
+</code></pre>
+
+<ol>
+<li>pass in a function:</li>
+</ol>
+
+<pre><code>tmixSecurity.isAuthorized(function(query, permissions, route, routeParams){
+    ...
+});
+</code></pre>
+
+<h3>
+<a id="example-use-permissions-in-a-controller" class="anchor" href="#example-use-permissions-in-a-controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Use Permissions in a Controller</h3>
+
+<ol>
+<li>Once permissions are set on the route, you can access permissions from within controllers (without a parameter, <code>getPermissions</code> will retrieve permissions for the current route, e.g. if the route's permissions field is a string, it will assume it is a URL--if not, it will assume it is a permissions object):</li>
+</ol>
+
+<pre><code>angular.module('exampleApp').controller('ExampleCtrl', function ($scope, tmixSecurity) {
+    var permissions = tmixSecurity.getPermissions().then(function(permissions){
+        ...
+    }); 
+});
+</code></pre>
+
+<ol>
+<li>If you set a parameter, you can retrieve the permissions from a different route:</li>
+</ol>
+
+<pre><code>something.permissions = tmixSecurity.getPermissions('/some-other-route').then(function(permissions){
+    ...
+}); 
+</code></pre>
+
+<ol>
+<li>If the permissions have already been cached, e.g. in a previous <code>authorizeOrRedirect()</code>, you can use a getPermissionsSync() to return the results directly, no promise:</li>
+</ol>
+
+<pre><code>var permissions = tmixSecurity.getPermissionsSync();
+</code></pre>
+
+<h3>
+<a id="example-use-one-set-of-permissions-throughout-application" class="anchor" href="#example-use-one-set-of-permissions-throughout-application" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Use One Set of Permissions Throughout Application</h3>
+
+<ol>
+<li>In cases where the permissions object is the same throughout the entire application, setup a default permissions object. E.g.:</li>
+</ol>
+
+<pre><code>angular.module('exampleApp').config(function($routeProvider, tmixSecurityProvider) { 
+    // use a URL...
+    tmixSecurityProvider.setDefaultPermissions('http://www.example.com/api/permissions');
+    // ... or use a static object
+    tmixSecurityProvider.setDefaultPermissions({canEdit: [1, 2, 3]});
+</code></pre>
+
+<ol>
+<li>Now you can skip the permissions object when securing routes:</li>
+</ol>
+
+<pre><code>        .when('/edit/:id', {
+            templateUrl: 'views/module.html',
+            controller: 'ModuleCtrl',
+            resolve: tmixSecurityProvider.authorizeOrRedirect
+            // no permissions declared here; will use default
+        });
+</code></pre>
+
+<ol>
+<li>Also, you can call <code>getPermissions()</code> without a route from within the controller:</li>
+</ol>
+
+<pre><code>angular.module('exampleApp').controller('ExampleCtrl', function ($scope, tmixSecurity) {
+    var permissions = tmixSecurity.getPermissions().then(function(permissions){ // notice no route is needed when default permissions are set
+        ...
+    }); 
+});
+</code></pre>
+
+<h3>
+<a id="example-redirect-to-a-custom-url" class="anchor" href="#example-redirect-to-a-custom-url" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Redirect to a Custom URL</h3>
+
+<p>By default, tmix-security provider will redirect to <code>/forbidden</code> when a user does not have authorization to a route. To change the redirect route, add a <code>deniedRoute</code> property on the route in question:</p>
+
+<pre><code>        .when('/edit/:id', {
+            templateUrl: 'views/module.html',
+            controller: 'ModuleCtrl',
+            resolve: tmixSecurityProvider.authorizeOrRedirect,
+            deniedRoute: '/custom-access-denied-route'
+        });
+</code></pre>
+
+<h3>
+<a id="example-set-custom-static-permissions" class="anchor" href="#example-set-custom-static-permissions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Set Custom, Static Permissions</h3>
+
+<p>If <code>permissions</code> is an array or object, tmix-security provider will use this instance as the route's permissions:</p>
+
+<pre><code>        .when('/', {
+            ...
+            resolve: tmixSecurityProvider.authorizeOrRedirect,
+            permissions: ['/', '/route1', '/route2']
+        })
+</code></pre>
+
+<h3>
+<a id="example-changing-permissions-clearing-the-cache" class="anchor" href="#example-changing-permissions-clearing-the-cache" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Changing Permissions, Clearing the Cache</h3>
+
+<p>tmix-security caches permissions retrieved from URLs; if your frontend application changes the permissions object and you want to re-retrieve permissions, clear the URL cache with:</p>
+
+<pre><code>    tmixSecurity.clearPermissionsCache();
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">tmix-security maintained by <a href="https://github.com/01org">01org</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
