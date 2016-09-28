@@ -29,7 +29,7 @@ The following examples should help you have tmix-security running quickly:
 
 1. Create a service that returns an array of allowed routes. For example:
 ```
-["/", "/route1", "/route2/:id"]
+["/", "/route1", "/route2/a", "/route2/b"]
 ```
 
 2. Include the tmix-security provider and set the `resolve` and `permissions` property on each route you want to secure:
