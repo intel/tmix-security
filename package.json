@@ -1,6 +1,6 @@
 {
 	"name": "tmix-security",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"devDependencies": {
 		"karma": "^0.12.23",
 		"karma-jasmine": "^0.1.5",
