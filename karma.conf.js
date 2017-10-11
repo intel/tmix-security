@@ -13,7 +13,7 @@ module.exports = function (config) {
 		port: 8080,
 		logLevel: config.LOG_INFO, // also: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
 		autoWatch: false,
-		browsers: ['PhantomJS'], // also: Firefox, IE, Chrome
+		browsers: ['Chrome'], // also: Firefox, IE, Chrome
 		singleRun: true,
 		// setup coverage reports
 		preprocessors: {

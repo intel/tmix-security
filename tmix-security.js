@@ -136,16 +136,17 @@ angular.module('tmix').provider('tmixSecurity', function () {
 	 */
 	var retrievePermissions = function (url) {
 		var deferred = injects.$q.defer();
-		injects.$http.get(url, {withCredentials: true})
-				.success(function (permissions) {
-					log('Permissions returned from: ' + url);
-					permissionsCache.put(url, permissions);
-					deferred.resolve(permissions);
-				})
-				.error(function (response) {
-					log('Failed to retrieve permissions from: ' + url);
-					deferred.reject(response);
-				});
+		injects.$http.get(url, { withCredentials: true })
+			.then(function(response) {
+				var permissions = response.data;
+				log('Permissions returned from: ' + url);
+				permissionsCache.put(url, permissions);
+				deferred.resolve(permissions);
+			})
+			.catch(function(response) {
+				log('Failed to retrieve permissions from: ' + url);
+				deferred.reject(response);
+			});
 		return deferred.promise;
 	};
 
