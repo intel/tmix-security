@@ -1,6 +1,6 @@
 # tmix-security
 
-The tmix-security provider is intended to extend backend security into an AngularJS application. It shouldn't replace backend security since AJAX requests can be altered outside the application--it should improve the user experience by making the UI security-aware.
+The tmix-security provider is intended to extend backend security into an AngularJS application. It shouldn't replace backend security since AJAX requests can be altered outside the application--it should improve the user experience by making the UI security-aware. You can try it out with Angular v1.5.9 at http://jsfiddle.net/576mxot1 and v1.3.2 at http://jsfiddle.net/sj0233sb.
 
 
 
